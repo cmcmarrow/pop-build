@@ -24,7 +24,8 @@ def cli(hub):
             hub.OPT['popbuild']['dev_pyinstaller'],
             hub.OPT['popbuild']['build'],
             hub.OPT['popbuild']['onedir'],
-            hub.OPT['popbuild']['pyenv']
+            hub.OPT['popbuild']['pyenv'],
+            hub.OPT['popbuild']['run'],
             )
 
 
@@ -39,6 +40,7 @@ def new(
         build=None,
         onedir=False,
         pyenv='system',
+        run='run.py',
         ):
     venv_dir = tempfile.mkdtemp()
     is_win = os.name == 'nt'
@@ -53,13 +55,14 @@ def new(
     hub.popbuild.BUILDS[bname] = {
             'name': name,
             'build': build,
+            'binaries': [],
             'is_win': is_win,
             'exclude': exclude,
             'requirements': requirements,
             'sys_site': sys_site,
             'dir': os.path.abspath(directory),
             'dev_pyinst': dev_pyinst,
-            'run': os.path.join(directory, 'run.py'),
+            'run': os.path.join(directory, run),
             'spec': os.path.join(directory, f'{name}.spec'),
             'pybin': python_bin,
             's_path': s_path,
@@ -103,8 +106,9 @@ def builder(
         dev_pyinst=False,
         build=None,
         onedir=False,
-        pyenv='system'):
-    bname = hub.popbuild.init.new(name, requirements, sys_site, exclude, directory, dev_pyinst, build, onedir, pyenv)
+        pyenv='system',
+        run='run.py',):
+    bname = hub.popbuild.init.new(name, requirements, sys_site, exclude, directory, dev_pyinst, build, onedir, pyenv, run)
     hub.popbuild.venv.create(bname)
     hub.popbuild.build.make(bname)
     hub.popbuild.venv.scan(bname)

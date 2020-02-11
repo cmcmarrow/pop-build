@@ -14,6 +14,11 @@ CLI_CONFIG = {
             'default': '.',
             'help': 'The path to the directory to build from',
             },
+        'run': {
+            'options': ['-R'],
+            'default': 'run.py',
+            'help': 'The location of the project run.py file',
+            },
         'requirements': {
             'options': ['-r'],
             'default': 'requirements.txt',

@@ -17,7 +17,6 @@ def make(hub, bname):
     build = opts['build']
     if not build:
         return
-    hub.popbuild.BUILDS[bname]['binaries'] = []
     bdir = tempfile.mkdtemp()
     cur_dir = os.getcwd()
     os.chdir(bdir)
