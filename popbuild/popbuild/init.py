@@ -46,11 +46,12 @@ def new(
     venv_dir = tempfile.mkdtemp()
     is_win = os.name == "nt"
     if is_win:
-        python_bin = os.path.join(venv_dir, "Scripts", "python")
+        python_bin = os.path.join(venv_dir, "Scripts", "python3")
         s_path = os.path.join(venv_dir, "Scripts", name)
     else:
-        python_bin = os.path.join(venv_dir, "bin", "python")
-        s_path = os.path.join(venv_dir, "bin", name)
+        python_env = 'env PYTHONUTF8=1 LANG=POSIX '
+        python_bin = os.path.join(venv_dir, "bin", "python3")
+        s_path = python_env + os.path.join(venv_dir, "bin", name)
     bname = str(uuid.uuid1())
     requirements = os.path.join(directory, requirements)
     hub.popbuild.BUILDS[bname] = {
