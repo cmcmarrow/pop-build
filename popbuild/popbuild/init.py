@@ -26,6 +26,7 @@ def cli(hub):
         hub.OPT["popbuild"]["onedir"],
         hub.OPT["popbuild"]["pyenv"],
         hub.OPT["popbuild"]["run"],
+        hub.OPT["popbuild"]["no_clean"],
     )
 
 
@@ -108,6 +109,7 @@ def builder(
     onedir=False,
     pyenv="system",
     run="run.py",
+    no_clean=False,
 ):
     bname = hub.popbuild.init.new(
         name,
@@ -128,4 +130,5 @@ def builder(
     hub.popbuild.inst.mk_spec(bname)
     hub.popbuild.inst.call(bname)
     hub.popbuild.post.report(bname)
-    hub.popbuild.post.clean(bname)
+    if not no_clean:
+        hub.popbuild.post.clean(bname)

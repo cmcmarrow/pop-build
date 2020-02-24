@@ -50,6 +50,11 @@ CLI_CONFIG = {
         "default": "system",
         "help": 'Set the python version to build with, if not present the system python will be used. Only use CPython versions, to see available versions run `pyenv install --list | grep " 3\.[6789]"`',
     },
+    "no_clean": {
+        "default": False,
+        "action": "store_true",
+        "help": "Don't run the clean up sequence, this will leave the venv, spec file and other artifacts. Only use this for debugging."
+    },
 }
 CONFIG = {
     "build": {
