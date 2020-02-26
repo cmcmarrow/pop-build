@@ -53,7 +53,7 @@ CLI_CONFIG = {
     "no_clean": {
         "default": False,
         "action": "store_true",
-        "help": "Don't run the clean up sequence, this will leave the venv, spec file and other artifacts. Only use this for debugging."
+        "help": "Don't run the clean up sequence, this will leave the venv, spec file and other artifacts. Only use this for debugging.",
     },
 }
 CONFIG = {

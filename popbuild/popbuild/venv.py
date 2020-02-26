@@ -72,6 +72,8 @@ def create(hub, bname):
     else:
         py_bin = os.path.join(opts["venv_dir"], "bin", "python3")
     pip_cmd = f"{py_bin} -m pip "
+    # update pip, cant update setuptools due to PyInstaller bug
+    subprocess.run(f"{pip_cmd} install -U pip", shell=True)
     # I am hardcoding this in for now, it should be removed when Python 3.8 has been out longer
     subprocess.run(f"{pip_cmd} install distro", shell=True)
     subprocess.run(f'{pip_cmd} install -r {opts["req"]}', shell=True)
