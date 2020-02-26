@@ -26,6 +26,10 @@ a = Analysis([r'{s_path}'],
              noarchive=False)
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
+'''
+
+SPEC_EXE = '''
+
 exe = EXE(pyz,
           a.scripts,
           a.binaries,
@@ -33,6 +37,7 @@ exe = EXE(pyz,
           a.datas,
           [],
           name=r'{name}',
+          exclude_binaries={onedir},
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -40,6 +45,31 @@ exe = EXE(pyz,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=True )
+'''
+
+SPEC_COLL = '''
+
+exe = EXE(pyz,
+          a.scripts,
+          [],
+          name=r'{name}',
+          exclude_binaries={onedir},
+          debug=False,
+          bootloader_ignore_signals=False,
+          strip=False,
+          upx=True,
+          upx_exclude=[],
+          runtime_tmpdir=None,
+          console=True )
+
+coll = COLLECT(exe,
+               a.binaries,
+               a.zipfiles,
+               a.datas,
+               strip=False,
+               upx=True,
+               upx_exclude=[],
+               name=r'{name}')
 '''
 
 
@@ -65,10 +95,18 @@ def mk_spec(hub, bname):
         datas.append((src, dst))
     kwargs['datas'] = datas.__repr__()
     kwargs['imports'] = imps.__repr__()
-    kwargs['binaries'] = opts['binaries'].__repr__()
-    spec = SPEC.format(**kwargs)
+    kwargs['binaries'] = opts.get('binaries', []).__repr__()
+    if '--onedir' in hub.popbuild.BUILDS[bname]['pypi_args']:
+        kwargs['onedir'] = True
+        spec = SPEC.format(**kwargs)
+        spec = spec + SPEC_COLL.format(**kwargs)
+    else:
+        kwargs['onedir'] = False
+        spec = SPEC.format(**kwargs)
+        spec = spec + SPEC_EXE.format(**kwargs)
     with open(opts['spec'], 'w+') as wfh:
         wfh.write(spec)
+    shutil.copy(opts['spec'], '/tmp')
     opts['cmd'] += f' {opts["spec"]}'
 
 

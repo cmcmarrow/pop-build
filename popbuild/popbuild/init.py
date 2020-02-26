@@ -68,7 +68,7 @@ def new(
             'all_paths': set(),
             'imports': set(),
             'datas': set(),
-            'cmd': f'{python_bin} -B -OO -m PyInstaller ',
+            'cmd': f'{python_bin} -B -OO -m PyInstaller',
             'pyenv': pyenv,
             'pypi_args': [
                 s_path,
