@@ -4,8 +4,8 @@ import libnacl.public
 
 
 def __init__(hub):
-    print('pb works!')
-    msg = b'You\'ve got two empty halves of coconut and you\'re bangin\' \'em together.'
+    print("pb works!")
+    msg = b"You've got two empty halves of coconut and you're bangin' 'em together."
     bob = libnacl.dual.DualSecret()
     alice = libnacl.dual.DualSecret()
     bob_box = libnacl.public.Box(bob.sk, alice.pk)
@@ -19,4 +19,4 @@ def __init__(hub):
     aclear = alice_box.decrypt(alice_ctxt)
     assert msg == aclear
     assert bob_ctxt != alice_ctxt
-    print('libsodium works!')
+    print("libsodium works!")
