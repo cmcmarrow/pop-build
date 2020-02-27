@@ -12,8 +12,8 @@ SPEC = """# -*- mode: python ; coding: utf-8 -*-
 block_cipher = None
 
 
-a = Analysis([r"{s_path}'],
-             pathex=[r"{cwd}'],
+a = Analysis([r"{s_path}"],
+             pathex=[r"{cwd}"],
              binaries={binaries},
              datas={datas},
              hiddenimports={imports},
@@ -36,7 +36,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name=r"{name}',
+          name=r"{name}",
           exclude_binaries={onedir},
           debug=False,
           bootloader_ignore_signals=False,
@@ -52,7 +52,7 @@ SPEC_COLL = """
 exe = EXE(pyz,
           a.scripts,
           [],
-          name=r"{name}',
+          name=r"{name}",
           exclude_binaries={onedir},
           debug=False,
           bootloader_ignore_signals=False,
@@ -69,7 +69,7 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name=r"{name}')
+               name=r"{name}")
 """
 
 
@@ -93,20 +93,20 @@ def mk_spec(hub, bname):
         src = src.replace("\\", "\\\\")
         dst = dst.replace("\\", "\\\\")
         datas.append((src, dst))
-    kwargs["datas'] = datas.__repr__()
-    kwargs["imports'] = imps.__repr__()
-    kwargs["binaries'] = opts.get('binaries', []).__repr__()
-    if "--onedir' in hub.popbuild.BUILDS[bname]['pypi_args']:
-        kwargs["onedir'] = True
+    kwargs["datas"] = datas.__repr__()
+    kwargs["imports"] = imps.__repr__()
+    kwargs["binaries"] = opts.get("binaries", []).__repr__()
+    if "--onedir" in hub.popbuild.BUILDS[bname]["pypi_args"]:
+        kwargs["onedir"] = True
         spec = SPEC.format(**kwargs)
         spec = spec + SPEC_COLL.format(**kwargs)
     else:
-        kwargs["onedir'] = False
+        kwargs["onedir"] = False
         spec = SPEC.format(**kwargs)
         spec = spec + SPEC_EXE.format(**kwargs)
-    with open(opts["spec'], 'w+') as wfh:
+    with open(opts["spec"], "w+") as wfh:
         wfh.write(spec)
-    opts["cmd"] += f" {opts["spec"]}'
+    opts["cmd"] += f' {opts["spec"]}'
 
 
 def call(hub, bname):
