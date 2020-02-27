@@ -6,6 +6,7 @@ import venv
 import os
 import subprocess
 
+
 OMIT = (
     "__pycache__",
     "PyInstaller",
@@ -41,12 +42,16 @@ def bin(hub, bname):
         .split("\n")
     ):
         avail.add(line.strip())
+    python_env = "env PYTHONUTF8=1 LANG=POSIX " if opts["locale_utf8"] else ""
     if opts["pyenv"] not in avail:
         subprocess.run(
-            f'env PYTHON_CONFIGURE_OPTS="--enable-shared --enable-ipv6" pyenv install {opts["pyenv"]}',
+            f'{python_env} PYTHON_CONFIGURE_OPTS="--enable-shared --enable-ipv6" CONFIGURE_OPTS="--enable-shared --enable-ipv6" pyenv install {opts["pyenv"]}',
             shell=True,
         )
-    return os.path.join(root, "versions", opts["pyenv"], "bin", "python")
+    bin_path = python_env + os.path.join(
+        root, "versions", opts["pyenv"], "bin", "python3"
+    )
+    return bin_path
 
 
 def create(hub, bname):
@@ -68,7 +73,7 @@ def create(hub, bname):
             cmd += "--system-site-packages"
         subprocess.run(cmd, shell=True)
     if opts["is_win"]:
-        py_bin = os.path.join(opts["venv_dir"], "Scripts", "python")
+        py_bin = os.path.join(opts["venv_dir"], "Scripts", "python3")
     else:
         py_bin = os.path.join(opts["venv_dir"], "bin", "python3")
     pip_cmd = f"{py_bin} -m pip "

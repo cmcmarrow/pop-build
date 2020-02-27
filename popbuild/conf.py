@@ -55,6 +55,12 @@ CLI_CONFIG = {
         "action": "store_true",
         "help": "Don't run the clean up sequence, this will leave the venv, spec file and other artifacts. Only use this for debugging.",
     },
+    "locale_utf8": {
+        "options": ["--locale-utf8"],
+        "default": False,
+        "action": "store_true",
+        "help": "Use the UTF-8 locale with PyInstaller, as in PEP538 and PEP540. This enables UTF-8 on systems which only provide C or POSIX locales.",
+    },
 }
 CONFIG = {
     "build": {
