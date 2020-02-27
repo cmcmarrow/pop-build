@@ -27,8 +27,8 @@ def cli(hub):
         hub.OPT["popbuild"]["pyenv"],
         hub.OPT["popbuild"]["run"],
         hub.OPT["popbuild"]["no_clean"],
+        hub.OPT["popbuild"]["locale_utf8"],
     )
-
 
 def new(
     hub,
@@ -42,6 +42,7 @@ def new(
     onedir=False,
     pyenv="system",
     run="run.py",
+    locale_utf8=False,
 ):
     venv_dir = tempfile.mkdtemp()
     is_win = os.name == "nt"
@@ -49,9 +50,11 @@ def new(
         python_bin = os.path.join(venv_dir, "Scripts", "python3")
         s_path = os.path.join(venv_dir, "Scripts", name)
     else:
-        python_env = 'env PYTHONUTF8=1 LANG=POSIX '
         python_bin = os.path.join(venv_dir, "bin", "python3")
-        s_path = python_env + os.path.join(venv_dir, "bin", name)
+        if locale_utf8:
+            s_path = "env PYTHONUTF8=1 LANG=POSIX " + os.path.join(venv_dir, "bin", name)
+        else:
+            s_path = os.path.join(venv_dir, "bin", name)
     bname = str(uuid.uuid1())
     requirements = os.path.join(directory, requirements)
     hub.popbuild.BUILDS[bname] = {
@@ -82,6 +85,7 @@ def new(
             "--onedir" if onedir else "--onefile",
             "--clean",
         ],
+        "locale_utf8,": locale_utf8,
     }
     req = hub.popbuild.init.mk_requirements(bname)
     hub.popbuild.BUILDS[bname]["req"] = req
@@ -111,6 +115,7 @@ def builder(
     pyenv="system",
     run="run.py",
     no_clean=False,
+    locale_utf8=False,
 ):
     bname = hub.popbuild.init.new(
         name,
@@ -123,6 +128,7 @@ def builder(
         onedir,
         pyenv,
         run,
+        locale_utf8,
     )
     hub.popbuild.venv.create(bname)
     hub.popbuild.build.make(bname)

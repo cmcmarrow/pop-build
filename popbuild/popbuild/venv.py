@@ -20,9 +20,10 @@ def bin(hub, bname):
     avail = set()
     for line in subprocess.run('pyenv versions', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.strip().decode().split('\n'):
         avail.add(line.strip())
+    python_env = "env PYTHONUTF8=1 LANG=POSIX " if opts['locale_utf8'] else ''
     if opts['pyenv'] not in avail:
-        subprocess.run(f'env PYTHONUTF8=1 LANG=POSIX PYTHON_CONFIGURE_OPTS="--enable-shared --enable-ipv6" CONFIGURE_OPTS="--enable-shared --enable-ipv6" pyenv install {opts["pyenv"]}', shell=True)
-    bin_path = 'env PYTHONUTF8=1 LANG=POSIX '+ os.path.join(root, 'versions', opts['pyenv'], 'bin', 'python3')
+        subprocess.run(f'{python_env} PYTHON_CONFIGURE_OPTS="--enable-shared --enable-ipv6" CONFIGURE_OPTS="--enable-shared --enable-ipv6" pyenv install {opts["pyenv"]}', shell=True)
+    bin_path = python_env + os.path.join(root, 'versions', opts['pyenv'], 'bin', 'python3')
     return bin_path
 
 
