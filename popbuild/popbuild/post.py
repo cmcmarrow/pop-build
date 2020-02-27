@@ -14,3 +14,12 @@ def clean(hub, bname):
     shutil.rmtree(opts["venv_dir"])
     os.remove(opts["spec"])
     os.remove(opts["req"])
+    try:
+        # try to remove pyinstaller warn-*** file
+        os.remove(
+            os.path.join(
+                opts["dir"], "build", opts["name"], "warn-{}.txt".format(opts["name"])
+            )
+        )
+    except FileNotFoundError:
+        pass
