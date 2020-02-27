@@ -30,6 +30,7 @@ def cli(hub):
         hub.OPT["popbuild"]["locale_utf8"],
     )
 
+
 def new(
     hub,
     name,
@@ -52,7 +53,9 @@ def new(
     else:
         python_bin = os.path.join(venv_dir, "bin", "python3")
         if locale_utf8:
-            s_path = "env PYTHONUTF8=1 LANG=POSIX " + os.path.join(venv_dir, "bin", name)
+            s_path = "env PYTHONUTF8=1 LANG=POSIX " + os.path.join(
+                venv_dir, "bin", name
+            )
         else:
             s_path = os.path.join(venv_dir, "bin", name)
     bname = str(uuid.uuid1())
