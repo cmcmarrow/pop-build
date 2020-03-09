@@ -88,7 +88,7 @@ def new(
             "--onedir" if onedir else "--onefile",
             "--clean",
         ],
-        "locale_utf8,": locale_utf8,
+        "locale_utf8": locale_utf8,
     }
     req = hub.popbuild.init.mk_requirements(bname)
     hub.popbuild.BUILDS[bname]["req"] = req
