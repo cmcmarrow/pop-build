@@ -48,7 +48,7 @@ def new(
     venv_dir = tempfile.mkdtemp()
     is_win = os.name == "nt"
     if is_win:
-        python_bin = os.path.join(venv_dir, "Scripts", "python3")
+        python_bin = os.path.join(venv_dir, "Scripts", "python")
         s_path = os.path.join(venv_dir, "Scripts", name)
     else:
         python_bin = os.path.join(venv_dir, "bin", "python3")
@@ -133,6 +133,7 @@ def builder(
         run,
         locale_utf8,
     )
+
     hub.popbuild.venv.create(bname)
     hub.popbuild.build.make(bname)
     hub.popbuild.venv.scan(bname)

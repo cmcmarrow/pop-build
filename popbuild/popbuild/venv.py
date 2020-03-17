@@ -72,11 +72,7 @@ def create(hub, bname):
         if opts["sys_site"]:
             cmd += "--system-site-packages"
         subprocess.run(cmd, shell=True)
-    if opts["is_win"]:
-        py_bin = os.path.join(opts["venv_dir"], "Scripts", "python3")
-    else:
-        py_bin = os.path.join(opts["venv_dir"], "bin", "python3")
-    pip_cmd = f"{py_bin} -m pip "
+    pip_cmd = f"{opts['pybin']} -m pip "
     # update pip, cant update setuptools due to PyInstaller bug
     subprocess.run(f"{pip_cmd} install -U pip", shell=True)
     # I am hardcoding this in for now, it should be removed when Python 3.8 has been out longer
